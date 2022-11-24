@@ -1,5 +1,8 @@
 package com.solvd.hospital.person;
 
+import java.util.Objects;
+import java.util.Scanner;
+
 public abstract class Person {
 
     protected String fullName;
@@ -10,17 +13,20 @@ public abstract class Person {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(Scanner sc) {
+        String fullName = sc.nextLine();
         if (fullName.split(" ").length == 3) {
             String editedFullName = fullName.replaceAll("\\s+", "");
             for (int i = 0; i < editedFullName.length(); i++) {
                 if (!Character.isLetter(editedFullName.charAt(i))) {
-                    throw new IllegalArgumentException("Неверные формат ФИО");
+                    System.err.println("Неверные формат ФИО");
+                    setFullName(sc);
                 }
             }
             this.fullName = fullName;
         } else {
-            throw new IllegalArgumentException("Неверные формат ФИО");
+            System.err.println("Неверные формат ФИО");
+            setFullName(sc);
         }
     }
 
@@ -28,17 +34,20 @@ public abstract class Person {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Scanner sc) {
+        String birthDate = sc.nextLine();
         if (birthDate.split("\\.").length == 3) {
             String editedBirthDate = birthDate.replaceAll("\\.", "");
             for (int i = 0; i < editedBirthDate.length(); i++) {
                 if (!Character.isDigit(editedBirthDate.charAt(i))) {
-                    throw new IllegalArgumentException("Неверные формат даты");
+                    System.err.println("Неверные формат даты");
+                    setBirthDate(sc);
                 }
                 this.birthDate = birthDate;
             }
         } else {
-            throw new IllegalArgumentException("Неверные формат даты");
+            System.err.println("Неверные формат даты");
+            setBirthDate(sc);
         }
     }
 
@@ -46,12 +55,27 @@ public abstract class Person {
         return sex;
     }
 
-    public void setSex(Character sex) {
+    public void setSex(Scanner sc) {
+        Character sex = sc.nextLine().charAt(0);
         if (sex != 'м'
-        && sex != 'ж') {
-            throw new IllegalArgumentException("Неверные формат пола");
+                && sex != 'ж') {
+            System.err.println("Неверные формат пола");
+            setSex(sc);
         }
         this.sex = sex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(fullName, person.fullName) && Objects.equals(birthDate, person.birthDate) && Objects.equals(sex, person.sex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, birthDate, sex);
     }
 
     public Person(String fullName, String birthDate, Character sex) {

@@ -3,6 +3,7 @@ package com.solvd.hospital.person.patient;
 import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.Person;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Patient extends Person {
@@ -14,28 +15,53 @@ public class Patient extends Person {
     private String problem;
 
 
-
     public void complainsAbout(Scanner sc) {
         System.out.println("Введите из списка на что у вас жалоба: " + exampleOfComplains);
         String problem = sc.nextLine();
         if (!exampleOfComplains.contains(problem)) {
-            throw new IllegalArgumentException("У нас тут от такого не лечат");
+            System.err.println("У нас тут от такого не лечат");
+            complainsAbout(sc);
         }
         setProblem(problem);
     }
 
-    public void fillOutPatientInformation(Scanner sc) {
+    public Patient fillOutPatientInformation(Scanner sc) {
         System.out.println("Здравствуйте! Для того, чтобы записаться к врачу введите ваше ФИО: ");
-        setFullName(sc.nextLine());
+        setFullName(sc);
 
         System.out.println("Дата рождения: ");
-        setBirthDate(sc.nextLine());
+        setBirthDate(sc);
 
         System.out.println("Ваш пол(ж/м): ");
-        setSex(sc.nextLine().charAt(0));
+        setSex(sc);
 
         System.out.println("Адрес проживания: ");
-        setAddress(sc.nextLine());
+        setAddress(sc);
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(address, patient.address) && Objects.equals(doctorToExamine, patient.doctorToExamine) && Objects.equals(problem, patient.problem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), address, doctorToExamine, problem);
+    }
+
+    @Override
+    public String toString() {
+        return "Пациент: " + fullName + "\n" +
+                "Жалобы: " + problem + '\n' +
+                doctorToExamine.getSpecialty() + ": " + doctorToExamine.getFullName() + '\n' +
+                "Время приема: " + timeToCome + '\n' +
+                "Кабинет: " + doctorToExamine.getOfficeNumber() + '\n' +
+                "--------------------------------------";
     }
 
     public Patient(String fullName, String birthDate, Character sex) {
@@ -50,8 +76,8 @@ public class Patient extends Person {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(Scanner sc) {
+        this.address = sc.nextLine();
     }
 
     public Doctor getDoctorToExamine() {

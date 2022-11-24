@@ -8,6 +8,7 @@ import com.solvd.hospital.person.patient.Patient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 public class Hospital {
@@ -25,16 +26,8 @@ public class Hospital {
         setNameOfHospital(nameOfHospital);
     }
 
-
-    public void getInformationAboutPatient(Hospital hospital, Patient patient) {
-        System.out.println("--------------------------------------" + "\n" +
-                hospital.getNameOfHospital() + " " + hospital.getLocation() + "\n" +
-                "Пациент: " + patient.getFullName() + "\n" +
-                "Жалобы: " + patient.getProblem() + "\n" +
-                patient.getDoctorToExamine().getSpecialty() + ": " + patient.getDoctorToExamine().getFullName() + "\n" +
-                "Время приема: " + patient.getTimeToCome() + "\n" +
-                "Кабинет: " + patient.getDoctorToExamine().getOfficeNumber() + "\n" +
-                "--------------------------------------");
+    public void getInformationAboutPatient(Patient patient) {
+        System.out.println(this + patient.toString());
     }
 
     public Department defineDepartment(String problem) {
@@ -74,6 +67,25 @@ public class Hospital {
             default:
                 throw new IllegalArgumentException("Ни чем помочь не можем");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hospital hospital = (Hospital) o;
+        return Objects.equals(nameOfHospital, hospital.nameOfHospital) && Objects.equals(location, hospital.location) && Objects.equals(departments, hospital.departments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameOfHospital, location, departments);
+    }
+
+    @Override
+    public String toString() {
+        return "--------------------------------------" + "\n" +
+                "УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ: " + nameOfHospital + ' ' + location + "\n";
     }
 
     public Hospital(String nameOfHospital) {

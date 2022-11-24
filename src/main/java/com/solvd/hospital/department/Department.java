@@ -4,6 +4,7 @@ import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.patient.Patient;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class Department {
@@ -28,6 +29,19 @@ public abstract class Department {
         return doctor;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return Objects.equals(departmentName, that.departmentName) && Objects.equals(numberOfChambers, that.numberOfChambers) && Objects.equals(doctors, that.doctors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(departmentName, numberOfChambers, doctors);
+    }
 
     @Override
     public String toString() {

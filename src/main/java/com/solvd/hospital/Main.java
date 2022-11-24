@@ -18,12 +18,12 @@ public class Main {
         patient = new Patient();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            patient.fillOutPatientInformation(scanner);
+            patient = patient.fillOutPatientInformation(scanner);
             patient.complainsAbout(scanner);
             department = hospital.defineDepartment(patient.getProblem());
             doctor = department.chooseDoctor(scanner, patient);
         }
-        hospital.getInformationAboutPatient(hospital, patient);
+        hospital.getInformationAboutPatient(patient);
         doctor.healPatient(patient);
     }
 }
