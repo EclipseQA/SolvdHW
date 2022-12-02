@@ -2,30 +2,32 @@ package com.solvd.hospital.person.patient;
 
 import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.Person;
+import com.solvd.hospital.person.patient.problem.Problem;
 
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Patient extends Person {
+public final class Patient extends Person {
 
-    private final String exampleOfComplains = "кожа, позвоночник, почки, голова, горло, ухи, нос, зубы, глаза";
     private String address;
     private Doctor doctorToExamine;
     private String timeToCome;
-    private String problem;
+    private Problem problem;
 
 
     public void complainsAbout(Scanner sc) {
-        System.out.println("Введите из списка на что у вас жалоба: " + exampleOfComplains);
-        String problem = sc.nextLine();
-        if (!exampleOfComplains.contains(problem)) {
-            System.err.println("У нас тут от такого не лечат");
-            complainsAbout(sc);
+        System.out.println("Введите из списка на что у вас жалоба: ");
+
+        for (Problem potentialProblem : Problem.values()) {
+            int i = potentialProblem.ordinal() + 1;
+            System.out.println(i + ". " + potentialProblem.getProblem());
         }
-        setProblem(problem);
+
+        String problem = sc.nextLine();
+        setProblem(Problem.findByName(problem));
     }
 
-    public Patient fillOutPatientInformation(Scanner sc) {
+    public void fillOutPatientInformation(Scanner sc) {
         System.out.println("Здравствуйте! Для того, чтобы записаться к врачу введите ваше ФИО: ");
         setFullName(sc);
 
@@ -37,7 +39,6 @@ public class Patient extends Person {
 
         System.out.println("Адрес проживания: ");
         setAddress(sc);
-        return this;
     }
 
     @Override
@@ -92,11 +93,11 @@ public class Patient extends Person {
         return timeToCome;
     }
 
-    public String getProblem() {
+    public Problem getProblem() {
         return problem;
     }
 
-    public void setProblem(String problem) {
+    public void setProblem(Problem problem) {
         this.problem = problem;
     }
 

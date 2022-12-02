@@ -2,7 +2,7 @@ package com.solvd.hospital.person.doctor;
 
 import com.solvd.hospital.person.patient.Patient;
 
-public class Dentist extends Doctor {
+public final class Dentist extends Doctor {
     @Override
     public void healPatient(Patient patient) {
         System.out.println(getFullName() + " осматривает зубы пациента " + patient.getFullName() +

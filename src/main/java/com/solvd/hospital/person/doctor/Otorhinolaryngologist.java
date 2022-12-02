@@ -2,7 +2,7 @@ package com.solvd.hospital.person.doctor;
 
 import com.solvd.hospital.person.patient.Patient;
 
-public class Otorhinolaryngologist extends Doctor {
+public final class Otorhinolaryngologist extends Doctor {
     @Override
     public void healPatient(Patient patient) {
         System.out.println(getFullName() + " осматривает ухо, горло, нос пациента " + patient.getFullName() +

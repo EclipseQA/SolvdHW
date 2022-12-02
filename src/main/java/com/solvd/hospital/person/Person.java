@@ -13,7 +13,7 @@ public abstract class Person {
         return fullName;
     }
 
-    public void setFullName(Scanner sc) {
+    public final void setFullName(Scanner sc) {
         String fullName = sc.nextLine();
         if (fullName.split(" ").length == 3) {
             String editedFullName = fullName.replaceAll("\\s+", "");
@@ -34,7 +34,7 @@ public abstract class Person {
         return birthDate;
     }
 
-    public void setBirthDate(Scanner sc) {
+    public final void setBirthDate(Scanner sc) {
         String birthDate = sc.nextLine();
         if (birthDate.split("\\.").length == 3) {
             String editedBirthDate = birthDate.replaceAll("\\.", "");
@@ -55,7 +55,7 @@ public abstract class Person {
         return sex;
     }
 
-    public void setSex(Scanner sc) {
+    public final void setSex(Scanner sc) {
         Character sex = sc.nextLine().charAt(0);
         if (sex != 'м'
                 && sex != 'ж') {

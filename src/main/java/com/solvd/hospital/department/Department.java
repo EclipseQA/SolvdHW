@@ -15,7 +15,7 @@ public abstract class Department {
     public Department() {
     }
 
-    public Doctor chooseDoctor(Scanner sc, Patient patient) {
+    public final Doctor chooseDoctor(Scanner sc, Patient patient) {
         System.out.println("Введите ID доктора, к которому вы хотите попасть");
         System.out.println(getDoctors() + ": ");
         Integer id = Integer.parseInt(sc.nextLine())-1;

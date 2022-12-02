@@ -14,11 +14,11 @@ public class Main {
     private static Department department;
 
     public static void main(String[] args) {
-        hospital = new Hospital("Первая городская больница", "г.Минск");
+        hospital = new Hospital("Первая городская больница");
         patient = new Patient();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            patient = patient.fillOutPatientInformation(scanner);
+            patient.fillOutPatientInformation(scanner);
             patient.complainsAbout(scanner);
             department = hospital.defineDepartment(patient.getProblem());
             doctor = department.chooseDoctor(scanner, patient);

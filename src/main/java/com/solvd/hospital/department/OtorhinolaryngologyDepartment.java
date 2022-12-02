@@ -5,7 +5,7 @@ import com.solvd.hospital.person.doctor.Doctor;
 import java.util.ArrayList;
 
 
-public class OtorhinolaryngologyDepartment extends Department {
+public final class OtorhinolaryngologyDepartment extends Department {
 
     public OtorhinolaryngologyDepartment() {
     }

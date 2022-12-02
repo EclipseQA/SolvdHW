@@ -5,7 +5,6 @@ import com.solvd.hospital.person.patient.Patient;
 import com.solvd.hospital.person.Person;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public abstract class Doctor extends Person {
@@ -58,6 +57,8 @@ public abstract class Doctor extends Person {
 
     public Doctor(String fullName, String specialty, String workingHours, Integer officeNumber, Department department) {
         super(fullName);
+        NUMBER_OF_DOCTORS++;
+        this.ID = getCurrentId();
         this.specialty = specialty;
         this.workingHours = workingHours;
         this.officeNumber = officeNumber;

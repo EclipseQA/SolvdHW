@@ -4,7 +4,7 @@ import com.solvd.hospital.person.doctor.Doctor;
 
 import java.util.ArrayList;
 
-public class DentistryDepartment extends Department {
+public final class DentistryDepartment extends Department {
 
     public DentistryDepartment() {
     }
