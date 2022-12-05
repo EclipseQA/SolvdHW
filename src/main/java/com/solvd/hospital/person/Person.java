@@ -1,10 +1,17 @@
 package com.solvd.hospital.person;
 
+import com.solvd.hospital.exceptions.InvalidBirthDateStatementException;
+import com.solvd.hospital.exceptions.InvalidNameStatementException;
+import com.solvd.hospital.exceptions.InvalidSexArgumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class Person {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(Person.class);
     protected String fullName;
     protected String birthDate;
     protected Character sex;
@@ -13,20 +20,18 @@ public abstract class Person {
         return fullName;
     }
 
-    public final void setFullName(Scanner sc) {
+    public final void setFullName(Scanner sc) throws InvalidNameStatementException {
         String fullName = sc.nextLine();
         if (fullName.split(" ").length == 3) {
             String editedFullName = fullName.replaceAll("\\s+", "");
             for (int i = 0; i < editedFullName.length(); i++) {
                 if (!Character.isLetter(editedFullName.charAt(i))) {
-                    System.err.println("Неверные формат ФИО");
-                    setFullName(sc);
+                    throw new InvalidNameStatementException("В имени присутствуют символы,которые не являются буквами:" + fullName);
                 }
             }
             this.fullName = fullName;
         } else {
-            System.err.println("Неверные формат ФИО");
-            setFullName(sc);
+            throw new InvalidNameStatementException("Неверный формат ФИО");
         }
     }
 
@@ -34,20 +39,18 @@ public abstract class Person {
         return birthDate;
     }
 
-    public final void setBirthDate(Scanner sc) {
+    public final void setBirthDate(Scanner sc) throws InvalidBirthDateStatementException {
         String birthDate = sc.nextLine();
         if (birthDate.split("\\.").length == 3) {
             String editedBirthDate = birthDate.replaceAll("\\.", "");
             for (int i = 0; i < editedBirthDate.length(); i++) {
                 if (!Character.isDigit(editedBirthDate.charAt(i))) {
-                    System.err.println("Неверные формат даты");
-                    setBirthDate(sc);
+                    throw new InvalidBirthDateStatementException("В дате присутствуют символы,которые не являются числами: " + birthDate);
                 }
                 this.birthDate = birthDate;
             }
         } else {
-            System.err.println("Неверные формат даты");
-            setBirthDate(sc);
+            throw new InvalidBirthDateStatementException("Неверный формат даты");
         }
     }
 
@@ -55,12 +58,11 @@ public abstract class Person {
         return sex;
     }
 
-    public final void setSex(Scanner sc) {
+    public final void setSex(Scanner sc) throws InvalidSexArgumentException {
         Character sex = sc.nextLine().charAt(0);
         if (sex != 'м'
                 && sex != 'ж') {
-            System.err.println("Неверные формат пола");
-            setSex(sc);
+            throw  new InvalidSexArgumentException(sex + "- Не является символом(м/ж)");
         }
         this.sex = sex;
     }

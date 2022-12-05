@@ -1,14 +1,19 @@
 package com.solvd.hospital.person.patient;
 
+import com.solvd.hospital.exceptions.InvalidBirthDateStatementException;
+import com.solvd.hospital.exceptions.InvalidNameStatementException;
+import com.solvd.hospital.exceptions.InvalidProblemException;
+import com.solvd.hospital.exceptions.InvalidSexArgumentException;
 import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.Person;
 import com.solvd.hospital.person.patient.problem.Problem;
+import org.slf4j.*;
 
 import java.util.Objects;
 import java.util.Scanner;
 
 public final class Patient extends Person {
-
+    private final static Logger LOGGER = LoggerFactory.getLogger(Patient.class);
     private String address;
     private Doctor doctorToExamine;
     private String timeToCome;
@@ -24,18 +29,42 @@ public final class Patient extends Person {
         }
 
         String problem = sc.nextLine();
-        setProblem(Problem.findByName(problem));
+        try {
+            setProblem(Problem.findByName(problem));
+        } catch (InvalidProblemException e) {
+            LOGGER.info(e.toString(), problem);
+            System.out.println("Попробуйте еще раз");
+            complainsAbout(sc);
+        }
     }
 
-    public void fillOutPatientInformation(Scanner sc) {
+    public void fillOutPatientInformation(Scanner sc) throws Exception {
         System.out.println("Здравствуйте! Для того, чтобы записаться к врачу введите ваше ФИО: ");
-        setFullName(sc);
+        try {
+            setFullName(sc);
+        } catch (InvalidNameStatementException e) {
+            LOGGER.debug(e.toString());
+            System.out.println("Введите данные снова");
+            setFullName(sc);
+        }
 
         System.out.println("Дата рождения: ");
-        setBirthDate(sc);
+        try {
+            setBirthDate(sc);
+        } catch (InvalidBirthDateStatementException e) {
+            LOGGER.debug(e.toString());
+            System.out.println("Введите данные снова");
+            setBirthDate(sc);
+        }
 
         System.out.println("Ваш пол(ж/м): ");
-        setSex(sc);
+        try {
+            setSex(sc);
+        } catch (InvalidSexArgumentException e) {
+            LOGGER.debug(e.toString());
+            System.out.println("Введите данные снова");
+            setSex(sc);
+        }
 
         System.out.println("Адрес проживания: ");
         setAddress(sc);
