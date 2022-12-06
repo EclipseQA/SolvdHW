@@ -19,17 +19,21 @@ public abstract class Department {
     public Department() {
     }
 
+    public Department(String departmentName, Integer numberOfChambers) {
+        this.departmentName = departmentName;
+        this.numberOfChambers = numberOfChambers;
+    }
+
     public final Doctor chooseDoctor(Scanner sc, Patient patient) throws InvalidDoctorsIDException {
         LOGGER.info("Введите ID доктора, к которому вы хотите попасть");
         LOGGER.info(getDoctors() + ": ");
-        Integer id = Integer.parseInt(sc.nextLine()) - 1;
-        if (getDoctors().size() - 1 < id) {
+        Integer id = Integer.parseInt(sc.nextLine());
+        if (!getDoctors().stream().anyMatch(d -> d.getID() != id)) {
             throw new InvalidDoctorsIDException("Doctor's ID is invalid");
         }
+        Doctor doctor = getDoctors().stream().filter(d -> d.getID() == id).findFirst().get();
         LOGGER.info("Введите время, которое удобно для Вас");
         patient.setTimeToCome(sc.nextLine());
-
-        Doctor doctor = getDoctors().get(id);
         patient.setNameOfDoctorToExamine(doctor);
 
         return doctor;

@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Hospital {
 
@@ -20,7 +17,8 @@ public class Hospital {
     private String nameOfHospital;
     private final String location = "г.Минск";
     private Integer numberOfPatients;
-    private ArrayList<Department> departments;
+    private LinkedList<Department> departments;
+    private LinkedHashMap<String, String> hospitalOptions;
 
     public Hospital() {
     }
@@ -33,40 +31,44 @@ public class Hospital {
         LOGGER.info(this + patient.toString());
     }
 
+    public void setHospitalOptions(){
+        hospitalOptions = new LinkedHashMap<>(){{
+            putIfAbsent("1-я городская клиническая больница", location);
+            putIfAbsent("2-я городская клиническая больница", location);
+            putIfAbsent("3-я городская клиническая больница имени Е.В.Клумова", location);
+        }};
+    }
+
+    public HashMap<String, String> getHospitalOptions(){
+        setHospitalOptions();
+        return hospitalOptions;
+    }
+
+    public void chooseHospitalOption(Scanner sc){
+        LOGGER.info("Введите цифру больницы" + getHospitalOptions());
+        String key = sc.nextLine();
+        this.nameOfHospital = getHospitalOptions().keySet().stream().filter(name -> name.contains(key)).findFirst().get();
+    }
+
     public Department defineDepartment(Problem problem) {
-        Random random = new Random(100);
+        setDepartments();
         switch (problem) {
             case SKIN:
-                return new EndocrinologyDepartment("Отделение эндокринологии",
-                        5, new ArrayList<>(Arrays.asList
-                        (new Endocrinologist("Алешин Андрей Егорович", "Эндокринолог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().getFirst();
             case SPINE:
-                return new SurgeryDepartment("Отделение хирургии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Surgeon("Архипова Елизавета Артёмовна", "Хирург", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().stream().filter(p -> p.getDepartmentName().contains("хирургии")).findFirst().get();
             case KIDNEYS:
-                return new NephrologyDepartment("Отделение нефрологии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Nephrologist("Баженов Артём Николаевич", "Нефролог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().stream().filter(p -> p.getDepartmentName().contains("нефрологии")).findFirst().get();
             case HEAD:
-                return new NeurologyDepartment("Отделение неврологии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Neurologist("Баранова Валерия Константиновна", "Невролог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().stream().filter(p -> p.getDepartmentName().contains("неврологии")).findFirst().get();
             case THROAT:
             case EARS:
             case NOSE:
-                return new OtorhinolaryngologyDepartment("Отделение оториноларингологии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Otorhinolaryngologist("Беликов Иван Тимурович", "Оториноларинголог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().stream().filter(p -> p.getDepartmentName().contains("оториноларингологии")).findFirst().get();
             case TEETH:
-                return new DentistryDepartment("Отделение стоматологии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Dentist("Беляев Михаил Александрович", "Стоматолог-стажер", "9:00-18:00", random.nextInt(419)),
-                                new Dentist("Воронина Евгения Ивановна", "Стоматолог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().stream().filter(p -> p.getDepartmentName().contains("стоматологии")).findFirst().get();
             case EYES:
-                return new OphthalmologyDepartment("Отделение офтальмологии",
-                        10, new ArrayList<>(Arrays.asList
-                        (new Ophthalmologist("Березин Егор Николаевич", "Офтальмолог", "9:00-18:00", random.nextInt(419)))));
+                return getDepartments().getLast();
             default:
                 throw new IllegalArgumentException("Ни чем помочь не можем");
         }
@@ -88,7 +90,7 @@ public class Hospital {
     @Override
     public String toString() {
         return "--------------------------------------" + "\n" +
-                "УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ: " + nameOfHospital + ' ' + location + "\n";
+                "УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ: " + nameOfHospital + ' ' + getLocation() + "\n";
     }
 
     public String getNameOfHospital() {
@@ -107,9 +109,35 @@ public class Hospital {
         this.numberOfPatients = numberOfPatients;
     }
 
-    public final ArrayList<Department> getDepartments() {
-        return new ArrayList<>(Arrays.asList(new OphthalmologyDepartment(),
-                new DentistryDepartment()));
+    public LinkedList<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments() {
+        Random random = new Random(100);
+        departments = new LinkedList<>();
+        departments.addAll(Arrays.asList(
+                new EndocrinologyDepartment("Отделение эндокринологии", 5, new ArrayList<>(List.of
+                        (new Endocrinologist("Алешин Андрей Егорович", "Эндокринолог", "9:00-18:00", random.nextInt(419))))),
+                (new SurgeryDepartment("Отделение хирургии",
+                        10, new ArrayList<>(List.of
+                        (new Surgeon("Архипова Елизавета Артёмовна", "Хирург", "9:00-18:00", random.nextInt(419)))))),
+                new NephrologyDepartment("Отделение нефрологии",
+                        10, new ArrayList<>(List.of
+                        (new Nephrologist("Баженов Артём Николаевич", "Нефролог", "9:00-18:00", random.nextInt(419))))),
+                new NeurologyDepartment("Отделение неврологии",
+                        10, new ArrayList<>(List.of
+                        (new Neurologist("Баранова Валерия Константиновна", "Невролог", "9:00-18:00", random.nextInt(419))))),
+                new OtorhinolaryngologyDepartment("Отделение оториноларингологии",
+                        10, new ArrayList<>(List.of
+                        (new Otorhinolaryngologist("Беликов Иван Тимурович", "Оториноларинголог", "9:00-18:00", random.nextInt(419))))),
+                new DentistryDepartment("Отделение стоматологии",
+                        10, new ArrayList<>(List.of
+                        (new Dentist("Беляев Михаил Александрович", "Стоматолог-стажер", "9:00-18:00", random.nextInt(419)),
+                                new Dentist("Воронина Евгения Ивановна", "Стоматолог", "9:00-18:00", random.nextInt(419))))),
+                new OphthalmologyDepartment("Отделение офтальмологии",
+                        10, new ArrayList<>(List.of(
+                                new Ophthalmologist("Березин Егор Николаевич", "Офтальмолог", "9:00-18:00", random.nextInt(419)))))));
     }
 
     public String getLocation() {

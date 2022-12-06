@@ -69,6 +69,10 @@ public abstract class Doctor extends Person {
         return specialty;
     }
 
+    public Integer getID() {
+        return ID;
+    }
+
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
     }

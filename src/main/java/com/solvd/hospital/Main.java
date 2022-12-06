@@ -2,6 +2,7 @@ package com.solvd.hospital;
 
 import com.solvd.hospital.department.Department;
 import com.solvd.hospital.exceptions.InvalidDoctorsIDException;
+import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.patient.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,19 +17,23 @@ public class Main {
         Patient patient;
         Hospital hospital;
         Department department;
+        Doctor doctor;
         Scanner scanner = new Scanner(System.in);
 
-        hospital = new Hospital("Первая городская больница");
+        hospital = new Hospital();
         patient = new Patient();
 
         try {
+            hospital.chooseHospitalOption(scanner);
             patient.fillOutPatientInformation(scanner);
             patient.complainsAbout(scanner);
-            department = hospital.defineDepartment(patient.getProblem());
 
-            patient.setNameOfDoctorToExamine(department.chooseDoctor(scanner, patient));
+            department = hospital.defineDepartment(patient.getProblem());
+            doctor = department.chooseDoctor(scanner, patient);
+
+            patient.setNameOfDoctorToExamine(doctor);
         } catch (InvalidDoctorsIDException e) {
-            LOGGER.debug(e.toString());
+            LOGGER.error(e.toString());
         } finally {
             scanner.close();
         }

@@ -9,8 +9,10 @@ import com.solvd.hospital.person.Person;
 import com.solvd.hospital.person.patient.problem.Problem;
 import org.slf4j.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 public final class Patient extends Person {
     private final static Logger LOGGER = LoggerFactory.getLogger(Patient.class);
@@ -18,15 +20,17 @@ public final class Patient extends Person {
     private Doctor doctorToExamine;
     private String timeToCome;
     private Problem problem;
+    private Set<Problem> exampleOfProblems;
 
 
     public void complainsAbout(Scanner sc) {
         LOGGER.info("Введите из списка на что у вас жалоба: ");
 
-        for (Problem potentialProblem : Problem.values()) {
-            int i = potentialProblem.ordinal() + 1;
-            LOGGER.info(i + ". " + potentialProblem.getProblem());
-        }
+        LOGGER.info(getExampleOfProblems().toString());
+//        for (Problem potentialProblem : Problem.values()) {
+//            int i = potentialProblem.ordinal() + 1;
+//            LOGGER.info(i + ". " + potentialProblem.getProblem());
+//        }
 
         String problem = sc.nextLine();
         try {
@@ -54,7 +58,7 @@ public final class Patient extends Person {
         } catch (InvalidBirthDateStatementException e) {
             LOGGER.debug(e.toString());
             LOGGER.info("Введите данные снова");
-            setBirthDate(sc);   
+            setBirthDate(sc);
         }
 
         LOGGER.info("Ваш пол(ж/м): ");
@@ -125,6 +129,21 @@ public final class Patient extends Person {
     public Problem getProblem() {
         return problem;
     }
+
+    public Set<Problem> getExampleOfProblems() {
+        setExampleOfProblems();
+        return exampleOfProblems;
+    }
+
+    public void setExampleOfProblems(){
+        exampleOfProblems = new HashSet<>();
+        for (Problem problem :
+                Problem.values()) {
+            exampleOfProblems.add(problem);
+        }
+    }
+
+
 
     public void setProblem(Problem problem) {
         this.problem = problem;
