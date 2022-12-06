@@ -2,6 +2,7 @@ package com.solvd.hospital;
 
 import com.solvd.hospital.department.Department;
 import com.solvd.hospital.exceptions.InvalidDoctorsIDException;
+import com.solvd.hospital.exceptions.InvalidIdHospitalException;
 import com.solvd.hospital.person.doctor.Doctor;
 import com.solvd.hospital.person.patient.Patient;
 import org.slf4j.Logger;
@@ -32,8 +33,10 @@ public class Main {
             doctor = department.chooseDoctor(scanner, patient);
 
             patient.setNameOfDoctorToExamine(doctor);
-        } catch (InvalidDoctorsIDException e) {
+        } catch (InvalidDoctorsIDException | InvalidIdHospitalException e) {
             LOGGER.error(e.toString());
+            LOGGER.info("Перезапуск программы");
+            main(args);
         } finally {
             scanner.close();
         }

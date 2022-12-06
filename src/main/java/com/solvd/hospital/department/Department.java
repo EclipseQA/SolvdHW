@@ -27,14 +27,13 @@ public abstract class Department {
     public final Doctor chooseDoctor(Scanner sc, Patient patient) throws InvalidDoctorsIDException {
         LOGGER.info("Введите ID доктора, к которому вы хотите попасть");
         LOGGER.info(getDoctors() + ": ");
-        Integer id = Integer.parseInt(sc.nextLine());
-        if (!getDoctors().stream().anyMatch(d -> d.getID() != id)) {
+        int id = Integer.parseInt(sc.nextLine());
+        if (getDoctors().stream().noneMatch(d -> d.getID() == id)) {
             throw new InvalidDoctorsIDException("Doctor's ID is invalid");
         }
-        Doctor doctor = getDoctors().stream().filter(d -> d.getID() == id).findFirst().get();
+        Doctor doctor = getDoctors().stream().filter(d -> Objects.equals(d.getID(), id)).findFirst().get();
         LOGGER.info("Введите время, которое удобно для Вас");
         patient.setTimeToCome(sc.nextLine());
-        patient.setNameOfDoctorToExamine(doctor);
 
         return doctor;
     }

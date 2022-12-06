@@ -2,6 +2,7 @@ package com.solvd.hospital;
 
 
 import com.solvd.hospital.department.*;
+import com.solvd.hospital.exceptions.InvalidIdHospitalException;
 import com.solvd.hospital.person.doctor.*;
 import com.solvd.hospital.person.patient.Patient;
 import com.solvd.hospital.person.patient.problem.Problem;
@@ -31,23 +32,26 @@ public class Hospital {
         LOGGER.info(this + patient.toString());
     }
 
-    public void setHospitalOptions(){
-        hospitalOptions = new LinkedHashMap<>(){{
+    public void setHospitalOptions() {
+        hospitalOptions = new LinkedHashMap<>() {{
             putIfAbsent("1-я городская клиническая больница", location);
             putIfAbsent("2-я городская клиническая больница", location);
             putIfAbsent("3-я городская клиническая больница имени Е.В.Клумова", location);
         }};
     }
 
-    public HashMap<String, String> getHospitalOptions(){
+    public HashMap<String, String> getHospitalOptions() {
         setHospitalOptions();
         return hospitalOptions;
     }
 
-    public void chooseHospitalOption(Scanner sc){
-        LOGGER.info("Введите цифру больницы" + getHospitalOptions());
+    public void chooseHospitalOption(Scanner sc) throws InvalidIdHospitalException {
+        LOGGER.info("Введите цифру больницы\n" + getHospitalOptions());
         String key = sc.nextLine();
-        this.nameOfHospital = getHospitalOptions().keySet().stream().filter(name -> name.contains(key)).findFirst().get();
+        this.nameOfHospital = getHospitalOptions().keySet().stream().filter(name -> name.contains(key)).findFirst().orElse(null);
+        if (nameOfHospital == null) {
+            throw new InvalidIdHospitalException("Неверный ID больницы");
+        }
     }
 
     public Department defineDepartment(Problem problem) {
@@ -116,7 +120,7 @@ public class Hospital {
     public void setDepartments() {
         Random random = new Random(100);
         departments = new LinkedList<>();
-        departments.addAll(Arrays.asList(
+        departments.addAll(List.of(
                 new EndocrinologyDepartment("Отделение эндокринологии", 5, new ArrayList<>(List.of
                         (new Endocrinologist("Алешин Андрей Егорович", "Эндокринолог", "9:00-18:00", random.nextInt(419))))),
                 (new SurgeryDepartment("Отделение хирургии",
@@ -137,7 +141,7 @@ public class Hospital {
                                 new Dentist("Воронина Евгения Ивановна", "Стоматолог", "9:00-18:00", random.nextInt(419))))),
                 new OphthalmologyDepartment("Отделение офтальмологии",
                         10, new ArrayList<>(List.of(
-                                new Ophthalmologist("Березин Егор Николаевич", "Офтальмолог", "9:00-18:00", random.nextInt(419)))))));
+                        new Ophthalmologist("Березин Егор Николаевич", "Офтальмолог", "9:00-18:00", random.nextInt(419)))))));
     }
 
     public String getLocation() {
