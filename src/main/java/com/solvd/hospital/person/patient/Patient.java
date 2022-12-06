@@ -21,11 +21,11 @@ public final class Patient extends Person {
 
 
     public void complainsAbout(Scanner sc) {
-        System.out.println("Введите из списка на что у вас жалоба: ");
+        LOGGER.info("Введите из списка на что у вас жалоба: ");
 
         for (Problem potentialProblem : Problem.values()) {
             int i = potentialProblem.ordinal() + 1;
-            System.out.println(i + ". " + potentialProblem.getProblem());
+            LOGGER.info(i + ". " + potentialProblem.getProblem());
         }
 
         String problem = sc.nextLine();
@@ -33,40 +33,40 @@ public final class Patient extends Person {
             setProblem(Problem.findByName(problem));
         } catch (InvalidProblemException e) {
             LOGGER.info(e.toString(), problem);
-            System.out.println("Попробуйте еще раз");
+            LOGGER.info("Попробуйте еще раз");
             complainsAbout(sc);
         }
     }
 
     public void fillOutPatientInformation(Scanner sc) throws Exception {
-        System.out.println("Здравствуйте! Для того, чтобы записаться к врачу введите ваше ФИО: ");
+        LOGGER.info("Здравствуйте! Для того, чтобы записаться к врачу введите ваше ФИО: ");
         try {
             setFullName(sc);
         } catch (InvalidNameStatementException e) {
             LOGGER.debug(e.toString());
-            System.out.println("Введите данные снова");
+            LOGGER.info("Введите данные снова");
             setFullName(sc);
         }
 
-        System.out.println("Дата рождения: ");
+        LOGGER.info("Дата рождения: ");
         try {
             setBirthDate(sc);
         } catch (InvalidBirthDateStatementException e) {
             LOGGER.debug(e.toString());
-            System.out.println("Введите данные снова");
-            setBirthDate(sc);
+            LOGGER.info("Введите данные снова");
+            setBirthDate(sc);   
         }
 
-        System.out.println("Ваш пол(ж/м): ");
+        LOGGER.info("Ваш пол(ж/м): ");
         try {
             setSex(sc);
         } catch (InvalidSexArgumentException e) {
             LOGGER.debug(e.toString());
-            System.out.println("Введите данные снова");
+            LOGGER.info("Введите данные снова");
             setSex(sc);
         }
 
-        System.out.println("Адрес проживания: ");
+        LOGGER.info("Адрес проживания: ");
         setAddress(sc);
     }
 

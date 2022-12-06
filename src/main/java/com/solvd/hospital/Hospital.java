@@ -5,6 +5,8 @@ import com.solvd.hospital.department.*;
 import com.solvd.hospital.person.doctor.*;
 import com.solvd.hospital.person.patient.Patient;
 import com.solvd.hospital.person.patient.problem.Problem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Random;
 
 public class Hospital {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Hospital.class);
     private String nameOfHospital;
     private final String location = "г.Минск";
     private Integer numberOfPatients;
@@ -27,7 +30,7 @@ public class Hospital {
     }
 
     public void getInformationAboutPatient(Patient patient) {
-        System.out.println(this + patient.toString());
+        LOGGER.info(this + patient.toString());
     }
 
     public Department defineDepartment(Problem problem) {
