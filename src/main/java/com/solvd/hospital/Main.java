@@ -34,9 +34,8 @@ public class Main {
 
             patient.setNameOfDoctorToExamine(doctor);
         } catch (InvalidDoctorsIDException | InvalidIdHospitalException e) {
-            LOGGER.error(e.toString());
-            LOGGER.info("Перезапуск программы");
-            main(args);
+            LOGGER.error(e + "Прекращение работы программы");
+            System.exit(0);
         } finally {
             scanner.close();
         }
