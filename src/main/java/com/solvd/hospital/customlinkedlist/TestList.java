@@ -1,78 +1,95 @@
 package com.solvd.hospital.customlinkedlist;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class TestList<T> implements List<T> {
 
-    //первая нода в нашем листе
     Node<T> head;
 
     private int length = 0;
 
-    // объявление листа
     TestList() {
         this.head = null;
     }
 
-    @Override
+    @Override//done
     public void clear() {
         head = null;
         length = 0;
     }
 
-    @Override
+    @Override//done
     public int size() {
         return length;
     }
 
-    @Override
+    @Override//done
     public boolean isEmpty() {
         return head == null;
     }
 
+    @Override//done
     public boolean add(T data) {
-        //создание новой ноды с нашими данными
         Node<T> temp = new Node<>(data);
-        //если в листе нету первой ноды, то присваиваем текущее значение
         if (this.head == null) {
             head = temp;
         }
-        //если есть в листе нода
         else {
-            //временная нода, которая указывает на начальную позицию
             Node<T> X = this.head;
-            //цикл, проверяем есть ли сосед у текущей ноды
             while (X.next != null) {
-                //меняем начальную позицию на соседа
                 X = X.next;
             }
-            //добавление соседа к последней ноде в листе
             X.next = temp;
         }
         length++;
         return true;
     }
 
-    @Override
+    @Override //done
     public T get(int index) {
-        return null;
+        Node<T> temp = head.next;
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("Вышел за пределы");
+        }
+        if (index == 0)
+            return head.data;
+        else {
+            for (int i = 1; i != index; i++) {
+                temp = temp.next;
+            }
+            return temp.data;
+        }
     }
 
-    @Override
+    @Override//done
     public T set(int index, T element) {
-        return null;
+        Node<T> temp = head.next;
+        Node<T> previousVar = head;
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("Вышел за пределы");
+        }
+        if (index == 0) {
+            head.data = element;
+            return previousVar.data;
+        } else {
+            for (int i = 1; i < length; i++) {
+                previousVar.data = temp.data;
+                if (i == index) {
+                    temp.data = element;
+                }
+                temp = temp.next;
+            }
+        }
+        return previousVar.data;
     }
 
-    @Override
+    @Override//done
     public void add(int index, T element) {
-        if (index > length + 1) {
-            throw new IndexOutOfBoundsException("Элемент под идексом + " + index + " нельзя добавить, так как в листе максимальное значение " + length + 1);
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("Элемент под идексом " + index + " нельзя добавить, так как в листе максимальное значение " + length);
         }
 
-        if (index == 1) {
+        if (index == 0) {
             Node<T> temp = head;
             head = new Node<>(element);
             head.next = temp;
@@ -81,13 +98,73 @@ public class TestList<T> implements List<T> {
 
         Node<T> temp = head;
         Node<T> prev = new Node<>(null);
-        while (index - 1 > 0) {
+        while (index > 0) {
             prev = temp;
             temp = temp.next;
             index--;
         }
         prev.next = new Node<>(element);
         prev.next.next = temp;
+    }
+
+    @Override //done
+    public boolean remove(Object o) {
+        Node<T> prev = new Node<>(null);
+        for (Node<T> x = head; x != null; x = x.next) {
+            if (o.equals(x.data)) {
+                //если послед эл
+                if (x.next == null) {
+                    prev.next.next = null;
+                    length--;
+                    return true;
+                }
+                //если первый
+                if (prev.data == null) {
+                    head = x.next;
+                    length--;
+                }
+                //если в середине
+                prev.next = x.next;
+            }
+            prev = head;
+        }
+        return false;
+    }
+
+    @Override //done
+    public int indexOf(Object o) {
+        int index = 0;
+
+        if (o == null) {
+            for (Node<T> x = head; x != null; x = x.next) {
+                if (x.data == null) {
+                    return index;
+                }
+                index++;
+            }
+        } else {
+            for (Node<T> x = head; x != null; x = x.next) {
+                if (o.equals(x.data))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
+    }
+
+    @Override //done
+    public String toString() {
+        String S = "{";
+        Node<T> X = head;
+        if (X == null) {
+            return S + " }";
+        }
+        while (X.next != null) {
+            S += X.data;
+            X = X.next;
+        }
+        S += X.data;
+        return S + " }";
     }
 
     /////////////////////////////////////////////
@@ -111,15 +188,14 @@ public class TestList<T> implements List<T> {
         return null;
     }
 
-
     @Override
-    public boolean remove(Object o) {
+    public boolean containsAll(Collection<?> c) {
         return false;
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
-        return false;
+    public T remove(int index) {
+        return null;
     }
 
     @Override
@@ -142,17 +218,6 @@ public class TestList<T> implements List<T> {
         return false;
     }
 
-
-    @Override
-    public T remove(int index) {
-        return null;
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
-    }
-
     @Override
     public int lastIndexOf(Object o) {
         return 0;
@@ -173,23 +238,10 @@ public class TestList<T> implements List<T> {
         return null;
     }
 
-    @Override
-    public String toString() {
-        String S = "{";
-        Node<T> X = head;
-        if (X == null) {
-            return S + " }";
-        }
-        while (X.next != null) {
-            S += X.data;
-            X = X.next;
-        }
-        S += X.data;
-        return S + " }";
-    }
-
     class Node<T> {
+        //значение текущей ноды
         T data;
+        //ссылка на след эл
         Node<T> next;
 
         Node(T data) {

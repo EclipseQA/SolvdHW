@@ -13,9 +13,14 @@ public class Main {
         TestList<Doctor> doctorTestList = new TestList<>();
         doctorTestList.add(doctor1);
         doctorTestList.add(doctor2);
-        doctorTestList.add(2, doctor3);
+        doctorTestList.add(doctor3);
+        doctorTestList.set(0, doctor2);
         System.out.println(doctorTestList);
-        doctorTestList.clear();
-        System.out.println(doctorTestList);
+
+//        System.out.println(doctorTestList.get(1));
+//        doctorTestList.add(2, doctor3);
+//        System.out.println(doctorTestList.indexOf(doctor1));
+//        doctorTestList.clear();
+//        System.out.println(doctorTestList);
     }
 }
