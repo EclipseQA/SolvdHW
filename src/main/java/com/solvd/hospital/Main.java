@@ -19,27 +19,22 @@ public class Main {
         Hospital hospital;
         Department department;
         Doctor doctor;
-        Scanner scanner = new Scanner(System.in);
 
-        hospital = new Hospital();
-        patient = new Patient();
-
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
+            hospital = new Hospital();
+            patient = new Patient();
             hospital.chooseHospitalOption(scanner);
             patient.fillOutPatientInformation(scanner);
             patient.complainsAbout(scanner);
 
             department = hospital.defineDepartment(patient.getProblem());
             doctor = department.chooseDoctor(scanner, patient);
-
             patient.setNameOfDoctorToExamine(doctor);
+
+            hospital.getInformationAboutPatient(patient);
+            patient.getDoctorToExamine().healPatient(patient);
         } catch (InvalidDoctorsIDException | InvalidIdHospitalException e) {
             LOGGER.error(e + "Прекращение работы программы");
-            System.exit(0);
-        } finally {
-            scanner.close();
         }
-        hospital.getInformationAboutPatient(patient);
-        patient.getDoctorToExamine().healPatient(patient);
     }
 }
