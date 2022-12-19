@@ -16,7 +16,7 @@ public class Main {
         String text = StringUtils.replaceAll(FileUtils.readFileToString(new File("src/main/resources/test.txt"), StandardCharsets.UTF_8), "\\p{Punct}", "");
         LinkedHashSet<String> uniqueWords = new LinkedHashSet<>(List.of(StringUtils.split(text)));
         List<String> listOfEachWord = new ArrayList<>();
-        uniqueWords.forEach(x -> listOfEachWord.add(x + " " + StringUtils.countMatches(text, x)));
+        uniqueWords.forEach(x -> listOfEachWord.add(x + " " + (StringUtils.countMatches(text, " " + x + " ") + 1)));
         FileUtils.writeLines(new File("src/main/resources/result.txt"), listOfEachWord);
 
     }
