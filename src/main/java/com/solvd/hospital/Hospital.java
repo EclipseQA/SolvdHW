@@ -49,6 +49,7 @@ public class Hospital {
         LOGGER.info("Введите цифру больницы\n" + getHospitalOptions());
         String key = sc.nextLine();
         this.nameOfHospital = getHospitalOptions().keySet().stream().filter(name -> name.contains(key)).findFirst().orElse(null);
+        setNumberOfPatients(this.numberOfPatients + 1);
         if (nameOfHospital == null) {
             throw new InvalidIdHospitalException("Неверный ID больницы");
         }
