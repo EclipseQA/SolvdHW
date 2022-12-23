@@ -17,7 +17,7 @@ public class Hospital {
     private static final Logger LOGGER = LoggerFactory.getLogger(Hospital.class);
     private String nameOfHospital;
     private final String location = "г.Минск";
-    private Integer numberOfPatients;
+    private static Integer numberOfPatients = 0;
     private LinkedList<Department> departments;
     private LinkedHashMap<String, String> hospitalOptions;
 
@@ -49,7 +49,7 @@ public class Hospital {
         LOGGER.info("Введите цифру больницы\n" + getHospitalOptions());
         String key = sc.nextLine();
         this.nameOfHospital = getHospitalOptions().keySet().stream().filter(name -> name.contains(key)).findFirst().orElse(null);
-        setNumberOfPatients(this.numberOfPatients + 1);
+        this.numberOfPatients++;
         if (nameOfHospital == null) {
             throw new InvalidIdHospitalException("Неверный ID больницы");
         }
@@ -108,10 +108,6 @@ public class Hospital {
 
     public Integer getNumberOfPatients() {
         return numberOfPatients;
-    }
-
-    public void setNumberOfPatients(Integer numberOfPatients) {
-        this.numberOfPatients = numberOfPatients;
     }
 
     public LinkedList<Department> getDepartments() {
