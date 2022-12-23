@@ -1,8 +1,6 @@
 package com.solvd.hospital.streamapi;
 
-import com.solvd.hospital.person.doctor.Dentist;
-import com.solvd.hospital.person.doctor.Doctor;
-import com.solvd.hospital.person.doctor.Surgeon;
+import com.solvd.hospital.person.doctor.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,24 +13,30 @@ public class Main {
     private static Logger LOOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Doctor doctor3 = new Surgeon("Vasya", "Surgeon", "9:00-13:00", new Random().ints(400, 500).findFirst().getAsInt());
-        Doctor doctor4 = new Surgeon("Oleg", "Surgeon", "13:00-16:00", new Random().ints(400, 500).findFirst().getAsInt());
-        Doctor doctor1 = new Dentist("Aleksej", "Dentist", "14:00-18:00", new Random().ints(100, 400).findFirst().getAsInt());
-        Doctor doctor2 = new Dentist("Aleksej", "Dentist", "10:00-12:00", new Random().ints(100, 400).findFirst().getAsInt());
+        Doctor doctor3 = new Surgeon("Vasya", Specialty.Surgeon, "9:00-13:00", new Random().ints(401, 500).findFirst().getAsInt());
+        Doctor doctor4 = new Neurologist("Oleg", Specialty.Nephrologist, "13:00-16:00", new Random().ints(401, 500).findFirst().getAsInt());
+        Doctor doctor1 = new Dentist("Aleksej", Specialty.Dentist, "14:00-18:00", new Random().ints(100, 400).findFirst().getAsInt());
+        Doctor doctor2 = new Dentist("Aleksej", Specialty.Dentist, "10:00-12:00", new Random().ints(100, 400).findFirst().getAsInt());
+        Doctor doctor5 = new Endocrinologist("Igor", Specialty.Endocrinologist, "10:00-12:00", new Random().ints(100, 400).findFirst().getAsInt());
 
-        ArrayList<Doctor> doctorArrayList = new ArrayList<>(List.of(doctor1, doctor2, doctor3, doctor4));
+        ArrayList<Doctor> doctorArrayList = new ArrayList<>(List.of(doctor5, doctor2, doctor1, doctor3, doctor4));
 
-        doctorArrayList.stream().map(x -> x.getFullName().toUpperCase()).forEach(LOOGGER::info);
+        LOOGGER.info(Arrays.toString(doctorArrayList.stream().filter(x -> x.getOfficeNumber() < 400 && x.getSpecialty().equals(Specialty.Endocrinologist)) //doc1,2,5
+                .collect(Collectors.toSet())
+                .stream().collect(Collectors.toList())
+                .stream().toArray()));
 
-        LOOGGER.info(doctorArrayList.stream().filter(x -> x.getOfficeNumber() > 400).toList().toString());
+        Stream.of(doctor4, doctor3, doctor1).sorted((o1, o2) -> o1.getID() - o2.getID()).forEach(x -> LOOGGER.info(x.toString()));
 
-        List<Doctor> doctorList = Stream.of(doctor4, doctor3, doctor1).sorted((o1, o2) -> o1.getID() - o2.getID()).collect(Collectors.toList());
-        LOOGGER.info(doctorList.toString());
 
-        LOOGGER.info(String.valueOf(Stream.builder().add(doctor2).add(doctor1).build().count()));
+        LOOGGER.info(Stream.builder().add(doctor4).add(doctor1).add(doctor5). /*3*/ build().skip(1).count() + "\n");
 
-        LOOGGER.info(String.valueOf(Stream.of(0, 2, 1, 4, 1/*5*/).skip(1).distinct().count()));
-
-        LOOGGER.info(String.valueOf(doctorArrayList.stream().filter(x -> x.getFullName().equals("Aleksej")).findFirst().get()));
+        if (doctorArrayList.stream().anyMatch(x -> x.getFullName().equals("1"))) {
+            LOOGGER.info(String.valueOf(doctorArrayList.stream().mapToInt(Doctor::getID).reduce((x, y) -> x + y).orElse(Integer.MAX_VALUE)));
+        } else {
+            doctorArrayList.stream().map(Doctor::getFullName).peek(x -> LOOGGER.info("Before skipping: " + x))
+                    .distinct().limit(3).forEachOrdered(x ->
+                            LOOGGER.info("After skipping: " + x));
+        }
     }
 }

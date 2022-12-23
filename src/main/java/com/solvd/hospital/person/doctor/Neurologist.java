@@ -13,7 +13,7 @@ public final class Neurologist extends Doctor {
                 " и выписывает таблетки - Темпалгин");
     }
 
-    public Neurologist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Neurologist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

@@ -123,26 +123,26 @@ public class Hospital {
         departments = new LinkedList<>();
         departments.addAll(List.of(
                 new EndocrinologyDepartment("Отделение эндокринологии", 5, new ArrayList<>(List.of
-                        (new Endocrinologist("Алешин Андрей Егорович", "Эндокринолог", "9:00-18:00", random.nextInt(419))))),
+                        (new Endocrinologist("Алешин Андрей Егорович", Specialty.Endocrinologist, "9:00-18:00", random.nextInt(419))))),
                 (new SurgeryDepartment("Отделение хирургии",
                         10, new ArrayList<>(List.of
-                        (new Surgeon("Архипова Елизавета Артёмовна", "Хирург", "9:00-18:00", random.nextInt(419)))))),
+                        (new Surgeon("Архипова Елизавета Артёмовна", Specialty.Surgeon, "9:00-18:00", random.nextInt(419)))))),
                 new NephrologyDepartment("Отделение нефрологии",
                         10, new ArrayList<>(List.of
-                        (new Nephrologist("Баженов Артём Николаевич", "Нефролог", "9:00-18:00", random.nextInt(419))))),
+                        (new Nephrologist("Баженов Артём Николаевич", Specialty.Nephrologist, "9:00-18:00", random.nextInt(419))))),
                 new NeurologyDepartment("Отделение неврологии",
                         10, new ArrayList<>(List.of
-                        (new Neurologist("Баранова Валерия Константиновна", "Невролог", "9:00-18:00", random.nextInt(419))))),
+                        (new Neurologist("Баранова Валерия Константиновна", Specialty.Neurologist, "9:00-18:00", random.nextInt(419))))),
                 new OtorhinolaryngologyDepartment("Отделение оториноларингологии",
                         10, new ArrayList<>(List.of
-                        (new Otorhinolaryngologist("Беликов Иван Тимурович", "Оториноларинголог", "9:00-18:00", random.nextInt(419))))),
+                        (new Otorhinolaryngologist("Беликов Иван Тимурович", Specialty.Otorhinolaryngologist, "9:00-18:00", random.nextInt(419))))),
                 new DentistryDepartment("Отделение стоматологии",
                         10, new ArrayList<>(List.of
-                        (new Dentist("Беляев Михаил Александрович", "Стоматолог-стажер", "9:00-18:00", random.nextInt(419)),
-                                new Dentist("Воронина Евгения Ивановна", "Стоматолог", "9:00-18:00", random.nextInt(419))))),
+                        (new Dentist("Беляев Михаил Александрович", Specialty.Dentist, "9:00-18:00", random.nextInt(419)),
+                                new Dentist("Воронина Евгения Ивановна", Specialty.Dentist, "9:00-18:00", random.nextInt(419))))),
                 new OphthalmologyDepartment("Отделение офтальмологии",
                         10, new ArrayList<>(List.of(
-                        new Ophthalmologist("Березин Егор Николаевич", "Офтальмолог", "9:00-18:00", random.nextInt(419)))))));
+                        new Ophthalmologist("Березин Егор Николаевич", Specialty.Ophthalmologist, "9:00-18:00", random.nextInt(419)))))));
     }
 
     public String getLocation() {

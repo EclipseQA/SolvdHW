@@ -13,7 +13,7 @@ public final class Ophthalmologist extends Doctor{
                 " и ставит диагноз - Близорукость");
     }
 
-    public Ophthalmologist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Ophthalmologist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

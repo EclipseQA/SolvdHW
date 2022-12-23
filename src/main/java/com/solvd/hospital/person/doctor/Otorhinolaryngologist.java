@@ -12,7 +12,7 @@ public final class Otorhinolaryngologist extends Doctor {
                 " и выписывает капли - Ципрофарм");
     }
 
-    public Otorhinolaryngologist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Otorhinolaryngologist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

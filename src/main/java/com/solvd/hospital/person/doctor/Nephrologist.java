@@ -13,7 +13,7 @@ public final class Nephrologist extends Doctor {
                 + " и ставит диагноз - Гидронефроз");
     }
 
-    public Nephrologist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Nephrologist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

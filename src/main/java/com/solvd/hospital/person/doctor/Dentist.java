@@ -12,7 +12,7 @@ public final class Dentist extends Doctor {
                 " и советует ему чаще их чистить");
     }
 
-    public Dentist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Dentist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

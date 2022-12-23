@@ -13,7 +13,7 @@ public final class Surgeon extends Doctor {
                 " и ставит диагноз - Cколиоз 2 степени");
     }
 
-    public Surgeon(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Surgeon(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }

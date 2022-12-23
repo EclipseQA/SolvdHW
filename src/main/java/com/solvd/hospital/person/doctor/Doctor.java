@@ -11,7 +11,7 @@ public abstract class Doctor extends Person {
 
     private static Integer NUMBER_OF_DOCTORS = 0;
     private Integer ID = 0;
-    private String specialty;
+    private Specialty specialty;
     private String workingHours;
     private Integer officeNumber;
     private Department department;
@@ -39,7 +39,7 @@ public abstract class Doctor extends Person {
                 '}' + "\n";
     }
 
-    public Doctor(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Doctor(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName);
         NUMBER_OF_DOCTORS++;
         this.ID = getCurrentId();
@@ -55,7 +55,7 @@ public abstract class Doctor extends Person {
     public Doctor() {
     }
 
-    public Doctor(String fullName, String specialty, String workingHours, Integer officeNumber, Department department) {
+    public Doctor(String fullName, Specialty specialty, String workingHours, Integer officeNumber, Department department) {
         super(fullName);
         NUMBER_OF_DOCTORS++;
         this.ID = getCurrentId();
@@ -65,7 +65,7 @@ public abstract class Doctor extends Person {
         this.department = department;
     }
 
-    public String getSpecialty() {
+    public Specialty getSpecialty() {
         return specialty;
     }
 
@@ -73,7 +73,7 @@ public abstract class Doctor extends Person {
         return ID;
     }
 
-    public void setSpecialty(String specialty) {
+    public void setSpecialty(Specialty specialty) {
         this.specialty = specialty;
     }
 

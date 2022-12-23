@@ -13,7 +13,7 @@ public final class Endocrinologist extends Doctor {
                 + patient.getFullName() + " и выписывает витамины(A, B, C)");
     }
 
-    public Endocrinologist(String fullName, String specialty, String workingHours, Integer officeNumber) {
+    public Endocrinologist(String fullName, Specialty specialty, String workingHours, Integer officeNumber) {
         super(fullName, specialty, workingHours, officeNumber);
     }
 }
